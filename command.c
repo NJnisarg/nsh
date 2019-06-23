@@ -29,15 +29,18 @@ void insert_arg(struct simpleCommand * cm, char * arg)
 
 void execute_command(struct simpleCommand * cm)
 {
-	printf("\nWe are going to execute the following command:");
-	printf("\nThe command is:%s", cm->arg_list[0]);
-	printf("\nThe args are:");
-	int i=0;
-	for(i=0;i<cm->current_num_args;i++)
-	{
-		printf("%s ",cm->arg_list[i]);
-	}
-	printf("\n");
+	// Informational Debugging
+	// Uncomment if you want to see the contents of the command
+
+	// printf("\nWe are going to execute the following command:");
+	// printf("\nThe command is:%s", cm->arg_list[0]);
+	// printf("\nThe args are:");
+	// int i=0;
+	// for(i=0;i<cm->current_num_args;i++)
+	// {
+	// 	printf("%s ",cm->arg_list[i]);
+	// }
+	// printf("\n");
 
 	// Execute the command
 	int ret;
@@ -56,4 +59,9 @@ void execute_command(struct simpleCommand * cm)
 		waitpid(ret, NULL);
 	}
 	waitpid(ret, NULL);
+}
+
+void show_prompt()
+{
+	printf("nsh>");
 }

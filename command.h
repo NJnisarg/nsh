@@ -7,3 +7,5 @@ struct simpleCommand{
 struct simpleCommand * create_simple_command(char *, int);
 void insert_arg(struct simpleCommand *, char *);
 void execute_command(struct simpleCommand *);
+
+void show_prompt();

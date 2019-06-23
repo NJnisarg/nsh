@@ -18,7 +18,7 @@ struct simpleCommand * cm;
 
 
 %token <str> WORD
-%token <i> NOTOKEN NEWLINE
+%token <i> NOTOKEN NEWLINE EXIT;
 
 %start simple_command
 
@@ -36,8 +36,13 @@ arg_list:
 simple_command:
 	| simple_command cmd arg_list NEWLINE {
 												execute_command(cm);
+												show_prompt();
 											}
 	| simple_command NEWLINE
+	| simple_command EXIT					{
+												exit(EXIT_SUCCESS);
+											}
+	|
 	;
 
 %%
@@ -47,5 +52,6 @@ void yyerror(char *s) {
 }
 int main()
 {
+	show_prompt();
 	yyparse();
 }
