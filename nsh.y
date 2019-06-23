@@ -45,7 +45,6 @@ simple_command:
 void yyerror(char *s) {
     fprintf(stderr, "%s\n", s);
 }
-
 int main()
 {
 	yyparse();

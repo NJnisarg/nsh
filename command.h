@@ -1,5 +1,4 @@
 struct simpleCommand{
-	char *cmd;
 	char ** arg_list;
 	int max_args_allowed;
 	int current_num_args;
