@@ -51,8 +51,9 @@ extern int yydebug;
     EXIT = 261,
     LESS = 262,
     GREAT = 263,
-    AMPERSAND = 264,
-    PIPE = 265
+    GREATGREAT = 264,
+    AMPERSAND = 265,
+    PIPE = 266
   };
 #endif
 /* Tokens.  */
@@ -62,8 +63,9 @@ extern int yydebug;
 #define EXIT 261
 #define LESS 262
 #define GREAT 263
-#define AMPERSAND 264
-#define PIPE 265
+#define GREATGREAT 264
+#define AMPERSAND 265
+#define PIPE 266
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -75,7 +77,7 @@ union YYSTYPE
 	char *str;
 	int i;
 
-#line 79 "y.tab.h" /* yacc.c:1909  */
+#line 81 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

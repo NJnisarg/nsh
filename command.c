@@ -14,6 +14,7 @@ struct simpleCommand * create_simple_command(char * cmd, int max_num_args)
 	cm->arg_list[0] = cmd;
 	cm->infile = NULL;
 	cm->outfile = NULL;
+	cm->outfile_append = 0;
 
 	return cm;
 }
@@ -67,7 +68,13 @@ void execute_command(struct simpleCommand * cm)
 
    	if(cm->outfile)
    	{
-   		fdout = open(cm->outfile, O_WRONLY | O_CREAT, S_IRWXU);
+   		if(cm->outfile_append==1)
+   			fdout = open(cm->outfile, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
+   		else
+   		{
+   			truncate(cm->outfile,0);
+   			fdout = open(cm->outfile, O_WRONLY | O_CREAT, S_IRWXU);
+   		}
    	}
    	else
    	{

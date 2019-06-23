@@ -18,6 +18,9 @@
 ">"				{
 					return GREAT;
 				}
+">>"			{
+					return GREATGREAT;
+				}
 "<"				{
 					return LESS;
 				}

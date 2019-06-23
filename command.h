@@ -4,6 +4,7 @@ struct simpleCommand{
 	int current_num_args;
 	char * infile;
 	char * outfile;
+	int outfile_append;
 };
 
 struct simpleCommand * create_simple_command(char *, int);

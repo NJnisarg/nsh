@@ -18,7 +18,7 @@ struct simpleCommand * cm;
 
 
 %token <str> WORD
-%token <i> NOTOKEN NEWLINE EXIT LESS GREAT AMPERSAND PIPE
+%token <i> NOTOKEN NEWLINE EXIT LESS GREAT GREATGREAT AMPERSAND PIPE
 
 %start simple_command
 
@@ -39,7 +39,12 @@ io_modifier_opt:
 					}
 	| GREAT WORD	{
 						cm->outfile = $2;
+						cm->outfile_append = 0;
 					}
+	| GREATGREAT WORD 	{
+							cm->outfile = $2;
+							cm->outfile_append = 1;
+						}
 	;
 redirection:
 	redirection io_modifier_opt
