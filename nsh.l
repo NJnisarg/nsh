@@ -8,19 +8,37 @@
 %}
 
 %%
-"exit"								{
-										return EXIT;
-									}
-[-_/.a-zA-Z0-9][-_/.a-zA-Z0-9]*		{
-										yylval.str = strdup(yytext);
-										return WORD;
-									}
+
 [ \t]			{
 					;
 				}
 "\n"			{
 					return NEWLINE;
 				}
+">"				{
+					return GREAT;
+				}
+"<"				{
+					return LESS;
+				}
+
+"|"				{
+					return PIPE;
+				}
+"&"				{
+					return AMPERSAND;
+				} 
+
+
+
+"exit"								{
+										return EXIT;
+									}
+
+[-_/.a-zA-Z0-9][-_/.a-zA-Z0-9]*		{
+										yylval.str = strdup(yytext);
+										return WORD;
+									}
 .				{
 					return NOTOKEN;
 				}

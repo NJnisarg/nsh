@@ -48,7 +48,11 @@ extern int yydebug;
     WORD = 258,
     NOTOKEN = 259,
     NEWLINE = 260,
-    EXIT = 261
+    EXIT = 261,
+    LESS = 262,
+    GREAT = 263,
+    AMPERSAND = 264,
+    PIPE = 265
   };
 #endif
 /* Tokens.  */
@@ -56,6 +60,10 @@ extern int yydebug;
 #define NOTOKEN 259
 #define NEWLINE 260
 #define EXIT 261
+#define LESS 262
+#define GREAT 263
+#define AMPERSAND 264
+#define PIPE 265
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -67,7 +75,7 @@ union YYSTYPE
 	char *str;
 	int i;
 
-#line 71 "y.tab.h" /* yacc.c:1909  */
+#line 79 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -18,7 +18,7 @@ struct simpleCommand * cm;
 
 
 %token <str> WORD
-%token <i> NOTOKEN NEWLINE EXIT;
+%token <i> NOTOKEN NEWLINE EXIT LESS GREAT AMPERSAND PIPE
 
 %start simple_command
 
@@ -33,8 +33,20 @@ arg_list:
 	arg_list arg
 	|
 	;
+io_modifier_opt:
+	LESS WORD		{
+						cm->infile = $2;
+					}
+	| GREAT WORD	{
+						cm->outfile = $2;
+					}
+	;
+redirection:
+	redirection io_modifier_opt
+	|
+	;
 simple_command:
-	| simple_command cmd arg_list NEWLINE {
+	| simple_command cmd arg_list redirection NEWLINE {
 												execute_command(cm);
 												show_prompt();
 											}
@@ -44,6 +56,8 @@ simple_command:
 											}
 	|
 	;
+
+
 
 %%
 

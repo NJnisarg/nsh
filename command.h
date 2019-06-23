@@ -2,6 +2,8 @@ struct simpleCommand{
 	char ** arg_list;
 	int max_args_allowed;
 	int current_num_args;
+	char * infile;
+	char * outfile;
 };
 
 struct simpleCommand * create_simple_command(char *, int);
