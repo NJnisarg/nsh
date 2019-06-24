@@ -459,7 +459,7 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    29,    29,    35,    41,    42,    46,    50,    54,    61,
-      64,    68,    74,    75,    79,    80,    84,    88,    89,    92
+      64,    68,    74,    75,    79,    82,    86,    92,    93,    96
 };
 #endif
 
@@ -1297,25 +1297,35 @@ yyreduce:
 #line 1298 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 14:
+#line 79 "nsh.y" /* yacc.c:1646  */
+    {
+					pl->background = 1;
+				}
+#line 1306 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 16:
-#line 84 "nsh.y" /* yacc.c:1646  */
+#line 86 "nsh.y" /* yacc.c:1646  */
     {
 																		execute_pipeline(pl);
 																		show_prompt();
+																		free(pl);
+																		pl = create_pipeline(10);
 																	}
-#line 1307 "y.tab.c" /* yacc.c:1646  */
+#line 1317 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 89 "nsh.y" /* yacc.c:1646  */
+#line 93 "nsh.y" /* yacc.c:1646  */
     {
 							exit(EXIT_SUCCESS);
 						}
-#line 1315 "y.tab.c" /* yacc.c:1646  */
+#line 1325 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1319 "y.tab.c" /* yacc.c:1646  */
+#line 1329 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1543,7 +1553,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 109 "nsh.y" /* yacc.c:1906  */
+#line 113 "nsh.y" /* yacc.c:1906  */
 
 
 void yyerror(char *s) {

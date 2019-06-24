@@ -86,6 +86,8 @@ pipeline:
 	pipeline simple_command_list redirection background NEWLINE		{
 																		execute_pipeline(pl);
 																		show_prompt();
+																		free(pl);
+																		pl = create_pipeline(10);
 																	}
 	| pipeline NEWLINE
 	| pipeline EXIT 	{

@@ -1,11 +1,12 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
-#include"command.h"
+#include "command.h"
 
 struct pipeline * create_pipeline(int max_num_simple_commands)
 {
@@ -31,7 +32,76 @@ void insert_simple_command(struct pipeline * pl, struct simpleCommand * cm)
 
 void execute_pipeline(struct pipeline * pl)
 {
-	
+	int i=0;
+	int tmpin = dup(0);
+	int tmpout = dup(1);
+
+	int fdin;
+	if(pl->infile)
+		fdin = open(pl->infile, O_RDONLY);
+	else
+		fdin = dup(tmpin);
+
+	int ret;
+	int fdout;
+	for(i=0;i<pl->current_num_simpleCommands;i++)
+	{
+		dup2(fdin,0);
+		close(fdin);
+
+		if(i == (pl->current_num_simpleCommands - 1))
+		{
+			if(pl->outfile)
+		   	{
+		   		if(pl->outfile_append==1)
+		   			fdout = open(pl->outfile, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
+		   		else
+		   		{
+		   			truncate(pl->outfile,0);
+		   			fdout = open(pl->outfile, O_WRONLY | O_CREAT, S_IRWXU);
+		   		}
+		   	}
+		   	else
+		   	{
+		   		fdout = dup(tmpout);
+		   	}
+		}
+		else
+		{
+			int fdpipe[2];
+			pipe(fdpipe);
+			fdout=fdpipe[1];
+			fdin=fdpipe[0];
+		}
+
+		dup2(fdout,1);
+		close(fdout);
+
+		ret = fork();
+		if(ret == 0)
+		{
+			// We are in child
+			struct simpleCommand * cm = pl->simpleCommands[i];
+			execvp(cm->arg_list[0], cm->arg_list);
+			perror("execvp");
+			_exit(1);
+		}
+		else if(ret < 0)
+		{
+			perror("fork");
+			return;
+		}
+	}
+	//restore in/out defaults
+	dup2(tmpin,0);
+	dup2(tmpout,1);
+	close(tmpin);
+	close(tmpout);
+
+	if(pl->background==0)
+	{
+		waitpid(ret, NULL);
+	}
 }
 
 struct simpleCommand * create_simple_command(char * cmd, int max_num_args)
@@ -56,82 +126,6 @@ void insert_arg(struct simpleCommand * cm, char * arg)
 	{
 		printf("\nExceeded the number of arguments");
 	}
-}
-
-void execute_command(struct simpleCommand * cm)
-{
-	// Informational Debugging
-	// Uncomment if you want to see the contents of the command
-
-	// printf("\nWe are going to execute the following command:");
-	// printf("\nThe command is:%s", cm->arg_list[0]);
-	// printf("\nThe args are:");
-	// int i=0;
-	// for(i=0;i<cm->current_num_args;i++)
-	// {
-	// 	printf("%s ",cm->arg_list[i]);
-	// }
-	// printf("\n");
-
-	// Execute the command
-
-	// First do the IO Redirections
-	// int tmpin = dup(0);
-	// int tmpout = dup(1);
-	
-	// int fdin;
-	// int fdout;
-
-	// if(cm->infile)
-	// {
-	// 	fdin = open(cm->infile, O_RDONLY);
-	// }
-	// else{
-	// 	fdin = dup(tmpin);
-	// }
-	// dup2(fdin, 0);
- //   	close(fdin);
-
- //   	if(cm->outfile)
- //   	{
- //   		if(cm->outfile_append==1)
- //   			fdout = open(cm->outfile, O_WRONLY | O_APPEND | O_CREAT, S_IRWXU);
- //   		else
- //   		{
- //   			truncate(cm->outfile,0);
- //   			fdout = open(cm->outfile, O_WRONLY | O_CREAT, S_IRWXU);
- //   		}
- //   	}
- //   	else
- //   	{
- //   		fdout = dup(tmpout);
- //   	}
-
- //   	dup2(fdout,1);
-	// close(fdout);
-
-	// int ret;
-	// ret = fork();
-	// if(ret == 0)
-	// {
-	// 	// We are in child
-	// 	execvp(cm->arg_list[0], cm->arg_list);
-	// 	perror("execvp");
-	// 	_exit(1);
-	// }
-	// else if(ret < 0)
-	// {
-	// 	perror("fork");
-	// 	return;
-	// 	waitpid(ret, NULL);
-	// }
-	// waitpid(ret, NULL);
-	
-	//  //restore in/out defaults
-	// dup2(tmpin,0);
-	// dup2(tmpout,1);
-	// close(tmpin);
-	// close(tmpout);
 }
 
 void show_prompt()
