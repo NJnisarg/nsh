@@ -15,6 +15,9 @@
 "\n"			{
 					return NEWLINE;
 				}
+";"				{
+					return SEMICOLON;
+				}
 ">"				{
 					return GREAT;
 				}
@@ -30,7 +33,14 @@
 				}
 "&"				{
 					return AMPERSAND;
-				} 
+				}
+"&&"			{
+					return AND;
+				}	
+"||"			{
+					return OR;
+				}
+
 
 
 

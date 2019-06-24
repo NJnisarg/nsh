@@ -53,7 +53,10 @@ extern int yydebug;
     GREAT = 263,
     GREATGREAT = 264,
     AMPERSAND = 265,
-    PIPE = 266
+    PIPE = 266,
+    SEMICOLON = 267,
+    AND = 268,
+    OR = 269
   };
 #endif
 /* Tokens.  */
@@ -66,6 +69,9 @@ extern int yydebug;
 #define GREATGREAT 264
 #define AMPERSAND 265
 #define PIPE 266
+#define SEMICOLON 267
+#define AND 268
+#define OR 269
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -77,7 +83,7 @@ union YYSTYPE
 	char *str;
 	int i;
 
-#line 81 "y.tab.h" /* yacc.c:1909  */
+#line 87 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

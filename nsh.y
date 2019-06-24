@@ -20,11 +20,17 @@ struct simpleCommand * cm;
 
 
 %token <str> WORD
-%token <i> NOTOKEN NEWLINE EXIT LESS GREAT GREATGREAT AMPERSAND PIPE
+%token <i> NOTOKEN NEWLINE EXIT LESS GREAT GREATGREAT AMPERSAND PIPE SEMICOLON AND OR
 
 %start pipeline
 
 %%
+
+terminator:
+	NEWLINE
+	| SEMICOLON
+	;
+
 cmd:
 	WORD	{
 				cm = create_simple_command($1,10);
@@ -83,13 +89,13 @@ background:
 	;
 
 pipeline: 
-	pipeline simple_command_list redirection background NEWLINE		{
+	pipeline simple_command_list redirection background terminator	{
 																		execute_pipeline(pl);
 																		show_prompt();
 																		free(pl);
 																		pl = create_pipeline(10);
 																	}
-	| pipeline NEWLINE
+	| pipeline terminator
 	| pipeline EXIT 	{
 							exit(EXIT_SUCCESS);
 						}	

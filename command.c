@@ -130,5 +130,7 @@ void insert_arg(struct simpleCommand * cm, char * arg)
 
 void show_prompt()
 {
-	printf("nsh$");
+	printf("\033[1;36m");
+	printf("nsh$ ");
+	printf("\033[0m");
 }
