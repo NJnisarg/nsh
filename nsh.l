@@ -6,6 +6,18 @@
 #include "y.tab.h"
 #include "input.c"
 
+void prepend(char* s, char* t)
+{
+    size_t len = strlen(t);
+    size_t i;
+
+    memmove(s + len, s, strlen(s) + 1);
+
+    for(i = 0;i < len; ++i)
+    {
+        s[i] = t[i];
+    }
+}
 
 %}
 
@@ -50,10 +62,10 @@
 										return EXIT;
 									}
 
-[":"-_/.a-zA-Z0-9][":"-_/.a-zA-Z0-9]*		{
-										yylval.str = strdup(yytext);
-										return WORD;
-									}
+[":"-_/.a-zA-Z0-9][":"-_/.a-zA-Z0-9]*	{
+											yylval.str = strdup(yytext);
+											return WORD;
+										}
 .				{
 					return NOTOKEN;
 				}

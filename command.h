@@ -1,3 +1,6 @@
+#define INIT_MAX_ARGS 10
+#define INIT_MAX_SIMPLE_COMMANDS 10
+
 // Structure for the entire pipeline. Contains an array of simpleCommands seperated by Pipes
 struct pipeline{
 	int max_num_simpleCommands;
@@ -20,10 +23,10 @@ struct simpleCommand{
 };
 
 // Functions for the pipeline
-struct pipeline * create_pipeline(int);
+struct pipeline * create_pipeline();
 void insert_simple_command(struct pipeline *, struct simpleCommand *);
 void execute_pipeline(struct pipeline *);
 
 // Functions for a simpleCommand
-struct simpleCommand * create_simple_command(char *, int);
+struct simpleCommand * create_simple_command(char *);
 void insert_arg(struct simpleCommand *, char *);

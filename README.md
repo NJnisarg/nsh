@@ -11,7 +11,7 @@ A Minimalist Linux Terminal Shell.
 
 ## Code organization
 - The Terminal shell, has 2 major components: 1.) The Parser and 2.) The Executor
-- The Parser component is built using Lex and Yacc, where as the executor is organized in the command.h and command.c files
+- The Parser component is built using Lex and Yacc and GNU Readline library, where as the executor is organized in the command.h and command.c files
 - The Lex is used for getting a Tokenizer/scanner(lexical analyzer) and Yacc is used to get the Parser that parses the Grammar for the shell commands.
 - The executor code and the data structures to hold the commands (Command table) are defined in the `command.h` and `command.c` files.
 
@@ -20,9 +20,10 @@ A Minimalist Linux Terminal Shell.
 - It has `simple commands` implemented
 - It has `I/O Redirections` implemented
 - It has `Pipes and Pipelines` implemented
+- It supports `cd`
+- Supports `tab-completion for filenames` and `history` and `up-arrow-key command history`
 
 ## Features to implement
-- It does not support `cd` yet.
 - It does not support `compound commands`, `lists/pipeline lists` and `shell scripting`
 - It does not support `shell environment and variables`.
  

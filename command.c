@@ -8,12 +8,12 @@
 
 #include "command.h"
 
-struct pipeline * create_pipeline(int max_num_simple_commands)
+struct pipeline * create_pipeline()
 {
 	struct pipeline * pl = (struct pipeline *)malloc(sizeof(struct pipeline));
-	pl->max_num_simpleCommands = max_num_simple_commands;
+	pl->max_num_simpleCommands = INIT_MAX_SIMPLE_COMMANDS;
 	pl->current_num_simpleCommands = 0;
-	pl->simpleCommands = (struct simpleCommand ** )malloc(max_num_simple_commands * sizeof(struct simpleCommand *));
+	pl->simpleCommands = (struct simpleCommand ** )malloc(INIT_MAX_SIMPLE_COMMANDS * sizeof(struct simpleCommand *));
 	pl->infile = NULL;
 	pl->outfile = NULL;
 	pl->outfile_append = 0;
@@ -77,19 +77,28 @@ void execute_pipeline(struct pipeline * pl)
 		dup2(fdout,1);
 		close(fdout);
 
-		ret = fork();
-		if(ret == 0)
+		struct simpleCommand * cm = pl->simpleCommands[i];
+		if(strcmp(cm->arg_list[0],"cd")==0)
 		{
-			// We are in child
-			struct simpleCommand * cm = pl->simpleCommands[i];
-			execvp(cm->arg_list[0], cm->arg_list);
-			perror("execvp");
-			_exit(1);
+			int success = chdir(cm->arg_list[1]);
+			if(success==-1)
+				perror("chdir");
 		}
-		else if(ret < 0)
+		else
 		{
-			perror("fork");
-			return;
+			ret = fork();
+			if(ret == 0)
+			{
+				// We are in child
+				execvp(cm->arg_list[0], cm->arg_list);
+				perror("execvp");
+				_exit(1);
+			}
+			else if(ret < 0)
+			{
+				perror("fork");
+				return;
+			}
 		}
 	}
 	//restore in/out defaults
@@ -104,12 +113,12 @@ void execute_pipeline(struct pipeline * pl)
 	}
 }
 
-struct simpleCommand * create_simple_command(char * cmd, int max_num_args)
+struct simpleCommand * create_simple_command(char * cmd)
 {
 	struct simpleCommand * cm = (struct simpleCommand *)malloc(sizeof(struct simpleCommand));
-	cm->max_args_allowed = max_num_args;
+	cm->max_args_allowed = INIT_MAX_ARGS;
 	cm->current_num_args = 1;
-	cm->arg_list = (char **)malloc(max_num_args * sizeof(char *));
+	cm->arg_list = (char **)malloc(INIT_MAX_ARGS * sizeof(char *));
 	cm->arg_list[0] = cmd;
 
 	return cm;

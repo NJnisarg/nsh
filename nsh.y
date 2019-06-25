@@ -33,7 +33,7 @@ terminator:
 
 cmd:
 	WORD	{
-				cm = create_simple_command($1,10);
+				cm = create_simple_command($1);
 			}
 	;
 
@@ -92,7 +92,7 @@ pipeline:
 	pipeline simple_command_list redirection background terminator	{
 																		execute_pipeline(pl);
 																		free(pl);
-																		pl = create_pipeline(10);
+																		pl = create_pipeline();
 																	}
 	| pipeline terminator
 	| pipeline EXIT 	{
@@ -111,7 +111,7 @@ void yyerror(char *s) {
 }
 int main()
 {
-	pl = create_pipeline(10);
+	pl = create_pipeline();
 	cm = NULL;
 	yyparse();
 }
