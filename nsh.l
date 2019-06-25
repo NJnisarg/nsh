@@ -1,9 +1,11 @@
 %{
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "y.tab.h"
+#include "input.c"
+
 
 %}
 
@@ -13,7 +15,7 @@
 					;
 				}
 "\n"			{
-					return NEWLINE;
+					return NLINE;
 				}
 ";"				{
 					return SEMICOLON;
@@ -48,7 +50,7 @@
 										return EXIT;
 									}
 
-[-_/.a-zA-Z0-9][-_/.a-zA-Z0-9]*		{
+[":"-_/.a-zA-Z0-9][":"-_/.a-zA-Z0-9]*		{
 										yylval.str = strdup(yytext);
 										return WORD;
 									}

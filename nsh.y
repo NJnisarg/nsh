@@ -20,14 +20,14 @@ struct simpleCommand * cm;
 
 
 %token <str> WORD
-%token <i> NOTOKEN NEWLINE EXIT LESS GREAT GREATGREAT AMPERSAND PIPE SEMICOLON AND OR
+%token <i> NOTOKEN NLINE EXIT LESS GREAT GREATGREAT AMPERSAND PIPE SEMICOLON AND OR UPARROWKEY
 
 %start pipeline
 
 %%
 
 terminator:
-	NEWLINE
+	NLINE
 	| SEMICOLON
 	;
 
@@ -91,30 +91,18 @@ background:
 pipeline: 
 	pipeline simple_command_list redirection background terminator	{
 																		execute_pipeline(pl);
-																		show_prompt();
 																		free(pl);
 																		pl = create_pipeline(10);
 																	}
 	| pipeline terminator
 	| pipeline EXIT 	{
 							exit(EXIT_SUCCESS);
+						}
+	| UPARROWKEY		{
+							printf("detects up arrow key!");
 						}	
 	|																
 	;
-
-/*
-simple_command:
-	| simple_command cmd arg_list redirection NEWLINE {
-												execute_command(cm);
-												show_prompt();
-											}
-	| simple_command NEWLINE
-	| simple_command EXIT					{
-												exit(EXIT_SUCCESS);
-											}
-	|
-	;
-*/
 
 %%
 
@@ -125,6 +113,5 @@ int main()
 {
 	pl = create_pipeline(10);
 	cm = NULL;
-	show_prompt();
 	yyparse();
 }

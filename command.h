@@ -27,6 +27,3 @@ void execute_pipeline(struct pipeline *);
 // Functions for a simpleCommand
 struct simpleCommand * create_simple_command(char *, int);
 void insert_arg(struct simpleCommand *, char *);
-
-// Extra shell functions
-void show_prompt();

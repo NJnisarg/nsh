@@ -3,7 +3,7 @@ all: build install
 build:	
 	yacc -d nsh.y
 	lex nsh.l
-	gcc lex.yy.c y.tab.c -o nsh
+	gcc lex.yy.c y.tab.c -lreadline -o nsh
 
 install: nsh
 	sudo cp nsh /bin/nsh

@@ -127,10 +127,3 @@ void insert_arg(struct simpleCommand * cm, char * arg)
 		printf("\nExceeded the number of arguments");
 	}
 }
-
-void show_prompt()
-{
-	printf("\033[1;36m");
-	printf("nsh$ ");
-	printf("\033[0m");
-}
